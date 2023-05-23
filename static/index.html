@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Manager</title>
+</head>
+<body>
+    <h1>Task Manager</h1>
+
+    <h2>Create Task</h2>
+    <form id="create-task-form">
+        <label for="create-title">Title:</label><br>
+        <input type="text" id="create-title" name="title"><br>
+        <label for="create-description">Description:</label><br>
+        <input type="text" id="create-description" name="description"><br>
+        <label for="create-status">Status:</label><br>
+        <input type="text" id="create-status1" name="status"><br>
+        <input type="submit" value="Create Task">
+    </form>
+
+    <h2>Update Task</h2>
+    <form id="update-task-form">
+        <label for="update-id">ID:</label><br>
+        <input type="text" id="update-id" name="id"><br>
+        <label for="update-title">Title:</label><br>
+        <input type="text" id="update-title" name="title"><br>
+        <label for="update-description">Description:</label><br>
+        <input type="text" id="update-description" name="description"><br>
+        <label for="update-status">Status:</label><br>
+        <input type="text" id="update-status" name="status"><br>
+        <input type="submit" value="Update Task">
+    </form>
+
+    <h2>Delete Task</h2>
+    <form id="delete-task-form">
+        <label for="delete-id">ID:</label><br>
+        <input type="text" id="delete-id" name="id"><br>
+        <input type="submit" value="Delete Task">
+    </form>
+
+    <h2>List Tasks</h2>
+    <button id="list-tasks-button">Listar Tareas</button>
+    <div id="tasks-list"></div>
+
+
+</body>
+<script>
+    document.getElementById('create-task-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var title = document.getElementById('create-title').value;
+        var description = document.getElementById('create-description').value;
+        var status = document.getElementById('create-status1').value;
+
+        fetch('http://127.0.0.1:8000/tasks/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title: title,
+                description: description,
+                status: status
+            }),
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch((error) => console.error('Error:', error));
+    });
+
+    // Obtén los elementos del formulario de actualización
+    var updateForm = document.getElementById('update-task-form');
+    var updateTitle = document.getElementById('update-title');
+    var updateDescription = document.getElementById('update-description');
+    var updateStatus = document.getElementById('update-status');
+
+    // Agrega un evento de envío al formulario de actualización
+    updateForm.addEventListener('submit', function(e) {
+    // Previene el comportamiento de envío por defecto
+    e.preventDefault();
+
+    // Haz una petición PUT a la API para actualizar la tarea
+    fetch('http://127.0.0.1:8000/tasks/' + updateForm.dataset.taskId, {
+        method: 'PUT',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+        title: updateTitle.value,
+        description: updateDescription.value,
+        status: updateStatus.value
+        }),
+    })
+    .then(response => response.json())
+    .then(data => console.log('Success:', data))
+    .catch((error) => console.error('Error:', error));
+    });
+
+    // Obtén los elementos del formulario de eliminación
+    var deleteForm = document.getElementById('delete-task-form');
+    var deleteId = document.getElementById('delete-id');
+
+    // Agrega un evento de envío al formulario de eliminación
+    deleteForm.addEventListener('submit', function(e) {
+    // Previene el comportamiento de envío por defecto
+    e.preventDefault();
+
+    // Haz una petición DELETE a la API para eliminar la tarea
+    fetch('http://127.0.0.1:8000/tasks/' + deleteId.value, {
+        method: 'DELETE',
+    })
+    .then(response => response.json())
+    .then(data => console.log('Success:', data))
+    .catch((error) => console.error('Error:', error));
+    });
+
+    // Obtén el botón de lista de tareas y el elemento de lista de tareas
+    var listTasksButton = document.getElementById('list-tasks-button');
+    var tasksList = document.getElementById('tasks-list');
+
+    // Agrega un evento de clic al botón de lista de tareas
+    listTasksButton.addEventListener('click', function(e) {
+    // Limpia la lista de tareas existente
+    tasksList.innerHTML = '';
+
+    // Haz una petición GET a la API para obtener la lista de tareas
+    fetch('http://127.0.0.1:8000/tasks/', {
+        method: 'GET',
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Itera sobre las tareas y añade cada una a la lista de tareas
+        data.forEach(task => {
+        var taskElement = document.createElement('div');
+        taskElement.textContent = task.title + ' - ' + task.description + ' - ' + task.status;
+        tasksList.appendChild(taskElement);
+        });
+    })
+    .catch((error) => console.error('Error:', error));
+    });
+
+</script>
+
+
+</html>
