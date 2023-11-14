@@ -1,20 +1,19 @@
-from fastapi import FastAPI, HTTPException, Request
-from fastapi.staticfiles import StaticFiles
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from fastapi.responses import HTMLResponse
 from typing import List, Optional
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="static/"), name="static")
 
 # Clase Task siguiendo el principio SRP
 class Task(BaseModel):
-    id: Optional[int]
+    id: Optional[int] = None
     title: str
     description: str
     status: str
 
 # Clase TaskManager siguiendo el principio SRP
+# The TaskManager class is a Python class that manages a list of tasks, allowing users to add, update,
+# delete, and retrieve tasks.
 class TaskManager:
     def __init__(self):
         self.tasks = []
@@ -47,13 +46,6 @@ class TaskManager:
         return self.tasks
 
 task_manager = TaskManager()
-
-
-@app.get("/", response_class=HTMLResponse,tags=["WebInterface"])
-async def get_root(request: Request):
-    with open("static/index.html", "r") as f:
-        html_content = f.read()
-    return html_content
 
 # Rutas de FastAPI siguiendo el principio KISS
 @app.post("/tasks/", response_model=Task)

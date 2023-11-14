@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Task Manager</title>
+    <link rel="stylesheet" href="./static/style.css">
 </head>
 <body>
     <h1>Task Manager</h1>
@@ -41,6 +42,11 @@
     <button id="list-tasks-button">Listar Tareas</button>
     <div id="tasks-list"></div>
 
+    <div id="alertBox" class="alert-box" style="display: none;">
+        <p id="alertMessage"></p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+    
 
 </body>
 <script>
@@ -62,7 +68,11 @@
             }),
         })
         .then(response => response.json())
-        .then(data => console.log(data))
+        .then(data =>{
+            console.log("Success:",data);
+            document.getElementById('alertMessage').textContent = 'Task created successfully!';
+            document.getElementById('alertBox').style.display = 'block';
+            })
         .catch((error) => console.error('Error:', error));
     });
 
@@ -90,7 +100,11 @@
         }),
     })
     .then(response => response.json())
-    .then(data => console.log('Success:', data))
+    .then(data =>{
+            console.log("Success:",data);
+            document.getElementById('alertMessage').textContent = 'Task created successfully!';
+            document.getElementById('alertBox').style.display = 'block';
+            })
     .catch((error) => console.error('Error:', error));
     });
 
@@ -108,7 +122,12 @@
         method: 'DELETE',
     })
     .then(response => response.json())
-    .then(data => console.log('Success:', data))
+    .then(data =>{
+            console.log("Success:",data);
+            document.getElementById('alertMessage').textContent = 'Task created successfully!';
+            document.getElementById('alertBox').style.display = 'block';
+            
+            })
     .catch((error) => console.error('Error:', error));
     });
 
@@ -132,10 +151,18 @@
         var taskElement = document.createElement('div');
         taskElement.textContent = task.title + ' - ' + task.description + ' - ' + task.status;
         tasksList.appendChild(taskElement);
+
+        document.getElementById('alertMessage').textContent = 'Task created successfully!';
+        document.getElementById('alertBox').style.display = 'block';
+
         });
     })
     .catch((error) => console.error('Error:', error));
     });
+
+    function closeAlert() {
+    document.getElementById('alertBox').style.display = 'none';
+    }
 
 </script>
 

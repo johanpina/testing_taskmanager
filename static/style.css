@@ -1,0 +1,67 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+form {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+input[type="submit"] {
+    background-color: #555;
+    color: white;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #333;
+}
+
+#tasks-list {
+    background: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#tasks-list div {
+    border-bottom: 1px solid #eee;
+    padding: 8px 0;
+}
+
+.alert-box {
+    background-color: lightgreen; /* Fondo verde */
+    color: black; /* Texto en negro */
+    border: 1px solid green; /* Borde verde */
+    padding: 20px;
+    position: fixed; /* Posición fija */
+    top: 20%; /* Posición desde arriba */
+    left: 50%; /* Posición desde la izquierda */
+    transform: translate(-50%, -50%); /* Centrado */
+    z-index: 1000; /* Asegura que se muestre sobre otros elementos */
+}
